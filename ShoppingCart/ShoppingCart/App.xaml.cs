@@ -8,7 +8,7 @@ namespace ShoppingCart
         {
             InitializeComponent();
 
-            MainPage = new ShoppingCartPage();
+            MainPage = new ShoppingCartMasterDetailPage();
         }
 
         protected override void OnStart()
