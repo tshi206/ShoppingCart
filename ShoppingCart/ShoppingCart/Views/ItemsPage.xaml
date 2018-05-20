@@ -20,16 +20,40 @@
                  ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
+                        <!-- <ImageCell ImageSource="{Binding ImageUrl}"> -->
+                        <!-- -->
+                        <!--     <ImageCell.ContextActions> -->
+                        <!--         <MenuItem Text="Edit" Clicked="Edit_Clicked" CommandParameter="{Binding .}" /> -->
+                        <!--         <MenuItem Text="Delete" Clicked="Delete_Clicked" CommandParameter="{Binding .}" /> -->
+                        <!--     </ImageCell.ContextActions> -->
+                        <!-- -->
+                        <!-- </ImageCell> -->
                         <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding Text}" 
-                       LineBreakMode="NoWrap" 
-                       Style="{DynamicResource ListItemTextStyle}" 
-                       FontSize="16" />
-                                <Label Text="{Binding Description}" 
-                       LineBreakMode="NoWrap"
-                       Style="{DynamicResource ListItemDetailTextStyle}"
-                       FontSize="13" />
+
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Edit" Clicked="Edit_Clicked" CommandParameter="{Binding .}" />
+                                <MenuItem Text="Delete" Clicked="Delete_Clicked" CommandParameter="{Binding .}" />
+                            </ViewCell.ContextActions>
+
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                                <StackLayout Padding="0" Margin="0" Spacing="0" Orientation="Horizontal">
+                                    <Image Source="{Binding ImageUrl}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Aspect="AspectFit"/>
+                                </StackLayout>
+                                
+                                <StackLayout Padding="10">
+                                    <Label Text="{Binding Text}"
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemTextStyle}"
+                                           FontSize="16" />
+                                    <Label Text="{Binding Description}"
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13" />
+                                    <Label Text="{Binding Quantity, StringFormat='x {0:F0}'}"
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13" />
+                                </StackLayout>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

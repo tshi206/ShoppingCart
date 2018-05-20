@@ -16,6 +16,7 @@ namespace ShoppingCart.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ItemsPage : ContentPage
 	{
+	    
         ItemsViewModel viewModel;
 
         public ItemsPage()
@@ -41,6 +42,16 @@ namespace ShoppingCart.Views
         {
             await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
         }
+
+	    async void Edit_Clicked(object sender, EventArgs e)
+	    {
+            
+	    }
+
+	    async void Delete_Clicked(object sender, EventArgs e)
+	    {
+
+	    }
 
         protected override void OnAppearing()
         {

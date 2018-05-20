@@ -6,9 +6,9 @@ using Xamarin.Forms.Xaml;
 namespace ShoppingCart.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AboutPage : ContentPage
+	public partial class AccountPage : ContentPage
 	{
-		public AboutPage ()
+        public AccountPage ()
 		{
 			InitializeComponent ();
 		}
