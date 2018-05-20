@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Diagnostics;
 using ShoppingCart.Views;
 using Xamarin.Forms;
 
@@ -19,7 +19,7 @@ namespace ShoppingCart
 		protected override void OnStart ()
 		{
             // Handle when your app starts
-		    Console.WriteLine("Start!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		    Debug.WriteLine("Start!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 		}
 

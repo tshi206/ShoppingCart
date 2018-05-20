@@ -51,9 +51,20 @@ namespace ShoppingCart.Views
 
 	    async void Delete_Clicked(object sender, EventArgs e)
 	    {
-	        Console.WriteLine(sender.ToString());
-	        Console.WriteLine(e.ToString());
-            //	        await viewModel.DataStore.DeleteItemAsync();
+	        Debug.WriteLine(sender.ToString());
+	        Debug.WriteLine(e.ToString());
+	        var menuItem = sender as MenuItem;
+		    if (menuItem != null)
+		    {
+			    var item = menuItem.CommandParameter as Item;
+			    if (item != null) Debug.WriteLine(item.Id);
+			    if (item != null) Debug.WriteLine(item.Description);
+			    if (item != null) Debug.WriteLine(item.ImageUrl);
+			    if (item != null) Debug.WriteLine(item.Quantity.ToString());
+			    if (item != null) await viewModel.DataStore.DeleteItemAsync(item);
+			    viewModel.LoadItemsCommand.Execute(null);
+		    }
+			
         }
 
         protected override void OnAppearing()

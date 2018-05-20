@@ -22,7 +22,7 @@ namespace ShoppingCart.Services
                 new Item { Id = Guid.NewGuid().ToString(), Text = "Third item", Description="This is an item description.", ImageUrl = "http://via.placeholder.com/256x256", Quantity = 5 },
                 new Item { Id = Guid.NewGuid().ToString(), Text = "Fourth item", Description="This is an item description.", ImageUrl = "http://via.placeholder.com/256x256", Quantity = 5 },
                 new Item { Id = Guid.NewGuid().ToString(), Text = "Fifth item", Description="This is an item description.", ImageUrl = "http://via.placeholder.com/256x256", Quantity = 5 },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description.", ImageUrl = "http://via.placeholder.com/256x256", Quantity = 5 },
+                new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description.", ImageUrl = "http://via.placeholder.com/256x256", Quantity = 5 }
             };
 
             foreach (var item in mockItems)
