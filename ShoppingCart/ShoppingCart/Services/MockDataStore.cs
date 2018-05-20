@@ -40,7 +40,7 @@ namespace ShoppingCart.Services
 
         public async Task<bool> UpdateItemAsync(Item item)
         {
-            var _item = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
+            var _item = items.FirstOrDefault(arg => arg.Id == item.Id);
             items.Remove(_item);
             items.Add(item);
 
