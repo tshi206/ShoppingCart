@@ -10,7 +10,7 @@ using ShoppingCart.Services;
 
 namespace ShoppingCart.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class CartViewModel : INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
 

@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace ShoppingCart.ViewModels
 {
-    public class AboutViewModel : BaseViewModel
+    public class AccountViewModel : CartViewModel
     {
-        public AboutViewModel()
+        public AccountViewModel()
         {
             Title = "Account";
 

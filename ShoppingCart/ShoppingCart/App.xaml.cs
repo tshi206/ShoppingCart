@@ -18,7 +18,9 @@ namespace ShoppingCart
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
+            // Handle when your app starts
+		    Console.WriteLine("Start!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
 		}
 
 		protected override void OnSleep ()

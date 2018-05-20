@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,8 +51,10 @@ namespace ShoppingCart.Views
 
 	    async void Delete_Clicked(object sender, EventArgs e)
 	    {
-
-	    }
+	        Console.WriteLine(sender.ToString());
+	        Console.WriteLine(e.ToString());
+            //	        await viewModel.DataStore.DeleteItemAsync();
+        }
 
         protected override void OnAppearing()
         {
