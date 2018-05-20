@@ -12,7 +12,8 @@ namespace ShoppingCart.ViewModels
 {
     public class CartViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
+        //public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? LocalDataStore.Database;
+        public IDataStore<Item> DataStore => LocalDataStore.Database;
 
         bool isBusy = false;
         public bool IsBusy

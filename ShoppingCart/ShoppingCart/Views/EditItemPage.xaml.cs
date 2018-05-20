@@ -28,5 +28,11 @@ namespace ShoppingCart
 			MessagingCenter.Send(this, "EditItem", Item);
 			await Navigation.PopModalAsync();
 		}
-	}
+
+	    async void Back_Clicked(object sender, EventArgs e)
+	    {
+	        MessagingCenter.Send(this, "Back", Item);
+	        await Navigation.PopModalAsync();
+	    }
+    }
 }

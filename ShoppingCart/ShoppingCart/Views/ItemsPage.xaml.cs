@@ -56,10 +56,7 @@ namespace ShoppingCart.Views
 				    Debug.WriteLine(item.Description);
 				    Debug.WriteLine(item.ImageUrl);
 				    Debug.WriteLine(item.Quantity.ToString());
-				    EditItemPage editItemPage = new EditItemPage(item);
-				    //editItemPage.Item = item;
-				    
-				    await Navigation.PushModalAsync(new NavigationPage(editItemPage));
+				    await Navigation.PushModalAsync(new NavigationPage(new EditItemPage(item)));
 			    }
 			    
 			    
@@ -75,12 +72,15 @@ namespace ShoppingCart.Views
 		    if (menuItem != null)
 		    {
 			    var item = menuItem.CommandParameter as Item;
-			    if (item != null) Debug.WriteLine(item.Id);
-			    if (item != null) Debug.WriteLine(item.Description);
-			    if (item != null) Debug.WriteLine(item.ImageUrl);
-			    if (item != null) Debug.WriteLine(item.Quantity.ToString());
-			    if (item != null) await viewModel.DataStore.DeleteItemAsync(item);
-			    viewModel.LoadItemsCommand.Execute(null);
+			    if (item != null)
+			    {
+				    Debug.WriteLine(item.Id);
+				    Debug.WriteLine(item.Description);
+				    Debug.WriteLine(item.ImageUrl);
+				    Debug.WriteLine(item.Quantity.ToString());
+				    await viewModel.DataStore.DeleteItemAsync(item);
+				    viewModel.LoadItemsCommand.Execute(null);
+			    }
 		    }
 			
         }
