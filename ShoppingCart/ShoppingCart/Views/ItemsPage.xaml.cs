@@ -46,7 +46,25 @@ namespace ShoppingCart.Views
 
 	    async void Edit_Clicked(object sender, EventArgs e)
 	    {
-            
+		    var menuItem = sender as MenuItem;
+		    if (menuItem != null)
+		    {
+			    var item = menuItem.CommandParameter as Item;
+			    if (item != null)
+			    {
+				    Debug.WriteLine(item.Id);
+				    Debug.WriteLine(item.Description);
+				    Debug.WriteLine(item.ImageUrl);
+				    Debug.WriteLine(item.Quantity.ToString());
+				    EditItemPage editItemPage = new EditItemPage(item);
+				    //editItemPage.Item = item;
+				    
+				    await Navigation.PushModalAsync(new NavigationPage(editItemPage));
+			    }
+			    
+			    
+			    //viewModel.LoadItemsCommand.Execute(null);
+		    }
 	    }
 
 	    async void Delete_Clicked(object sender, EventArgs e)

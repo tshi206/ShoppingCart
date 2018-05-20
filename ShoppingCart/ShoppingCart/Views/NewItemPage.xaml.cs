@@ -20,7 +20,9 @@ namespace ShoppingCart.Views
             Item = new Item
             {
                 Text = "Item name",
-                Description = "This is an item description."
+                Description = "This is an item description.",
+                ImageUrl = "https://...",
+                Quantity = 1
             };
 
             BindingContext = this;

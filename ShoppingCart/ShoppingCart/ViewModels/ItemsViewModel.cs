@@ -2,11 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
-using Xamarin.Forms;
-
 using ShoppingCart.Models;
 using ShoppingCart.Views;
+using Xamarin.Forms;
 
 namespace ShoppingCart.ViewModels
 {
@@ -23,9 +21,14 @@ namespace ShoppingCart.ViewModels
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
             {
-                var _item = item as Item;
+                var _item = item;
                 Items.Add(_item);
                 await DataStore.AddItemAsync(_item);
+            });
+            
+            MessagingCenter.Subscribe<NewItemPage, Item>(this, "EditItem", async (obj, item) =>
+            {
+                await DataStore.UpdateItemAsync(item);
             });
         }
 
