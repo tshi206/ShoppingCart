@@ -25,6 +25,17 @@ namespace ShoppingCart.Views
             InitializeComponent();
 
             BindingContext = viewModel = new ItemsViewModel();
+
+            MessagingCenter.Subscribe<ItemsViewModel, bool>(this, "EmptyCart", async (obj, isEmpty) =>
+                {
+                    await DisplayAlert("Hi there!", "Looks like a fresh installation.\n" +
+                                                    "You don't have any item at the moment: \n" +
+                                                    "(1) for new users, start adding items to your cart now!\n" +
+                                                    "(2) if you used this app before, login with your Google account to " +
+                                                    "retrieve your items back from the cloud\n" +
+                                                    "(3) drag down the cart list to reload items from local storage and/or" +
+                                                    " sync your data to the cloud", "OK");
+                });
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)

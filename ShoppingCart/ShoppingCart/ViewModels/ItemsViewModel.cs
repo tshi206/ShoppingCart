@@ -70,7 +70,19 @@ namespace ShoppingCart.ViewModels
                 var items = await DataStore.GetItemsAsync(true);
                 foreach (var item in items)
                 {
+                    Debug.WriteLine("Id: " + item.Id);
+                    Debug.WriteLine("Text (name) : " + (item.Text ?? "null"));
+                    Debug.WriteLine("Description: " + (item.Description ?? "null"));
+                    Debug.WriteLine("ImageUrl: " + (item.ImageUrl ?? "null"));
+                    Debug.WriteLine("Quantity: " + item.Quantity);
+                    Debug.WriteLine("ImageFilePath: " + (item.ImageFilePath ?? "null"));
+                    Debug.WriteLine("Uid: " + (item.Uid??"null"));
                     Items.Add(item);
+                }
+
+                if (items.Count == 0)
+                {
+                    MessagingCenter.Send(this, "EmptyCart", true);
                 }
             }
             catch (Exception ex)
