@@ -21,9 +21,25 @@ namespace ShoppingCart.ViewModels
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
             {
-                var _item = item;
-                Items.Add(_item);
-                await DataStore.AddItemAsync(_item);
+                if (item == null)
+                {
+                    Debug.WriteLine("new item is null!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
+
+                if (obj == null)
+                {
+                    Debug.WriteLine("obj is null!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
+
+                Debug.WriteLine(obj.ToString());
+                Debug.WriteLine(item.ToString());
+
+                Items.Add(item);
+                bool result = await DataStore.AddItemAsync(item);
+                if (!result)
+                {
+                    Debug.WriteLine("CANNOT ADD NEW ITEM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
             });
             
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "EditItem", async (obj, item) =>

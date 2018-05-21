@@ -11,5 +11,7 @@ namespace ShoppingCart.Models
         public string Text { get; set; }
         public string Description { get; set; }
         public int Quantity { get; set; }
+        public string Uid { get; set; }
+        public string ImageFilePath { get; set; }
     }
 }

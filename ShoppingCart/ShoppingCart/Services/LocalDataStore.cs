@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using ShoppingCart.Models;
 using SQLite;
@@ -21,7 +20,19 @@ namespace ShoppingCart.Services
             {
                 if (_database == null)
                 {
-                    _database = new LocalDataStore(DependencyService.Get<IFileHelper>().GetLocalFilePath("CartSQLite.db3"));
+                    // local DB file : "CartSQLite.db3"
+                    if (DependencyService.Get<IDBInterface>() == null)
+                    {
+                        Debug.WriteLine("DependencyService.Get<IDBInterface>() is null");
+                    }
+
+                    if (DependencyService.Get<IDBInterface>().GetLocalDBPath("CartSQLite", "db3") == null)
+                    {
+                        Debug.WriteLine("DependencyService.Get<IDBInterface>().GetLocalDBPath('CartSQLite', 'db3') is null");
+                    }
+                    // Debug.WriteLine(DependencyService.Get<IDBInterface>());
+                    // Debug.WriteLine(DependencyService.Get<IDBInterface>().GetLocalDBPath("CartSQLite", "db3"));
+                    _database = new LocalDataStore(DependencyService.Get<IDBInterface>().GetLocalDBPath("CartSQLite", "db3"));
                     Debug.WriteLine("New DB connection ESTABLISHED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 }
                 else
@@ -35,12 +46,33 @@ namespace ShoppingCart.Services
         private LocalDataStore(String dbPath)
         {
             _sqLiteAsyncConnection = new SQLiteAsyncConnection(dbPath);
-            _sqLiteAsyncConnection.CreateTableAsync<Item>().Wait();
+            _sqLiteAsyncConnection.CreateTableAsync<Item>().ContinueWith(t => {
+                if (t.IsCompleted)
+                {
+                    Debug.WriteLine("Table created!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    Debug.WriteLine("Table Result: " + t.Result.ToString());
+                }
+                else
+                {
+                    Debug.WriteLine("TABLE CREATE : FAILED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
+            }).Wait();
         }
 
         public async Task<bool> AddItemAsync(Item item)
         {
-            return await _database.AddItemAsync(item);
+            Debug.WriteLine("Start adding a new item!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            return await await _sqLiteAsyncConnection.InsertAsync(item).ContinueWith(t =>
+            {
+                return new Task<bool>(() =>
+                {
+                    if (t.IsCanceled){ Debug.WriteLine("ADD ITEM FAIL : CANCELED!!!!!!!!!!!!!!!!!!!!!!"); return false; }
+                    if (t.IsFaulted){ Debug.WriteLine("ADD ITEM FAIL : FAULTED!!!!!!!!!!!!!!!!!!!!!!"); return false; }
+                    if (t.IsCompleted){ Debug.WriteLine("ADD ITEM SUCCEEDED!!!!!!!!!!!!!!!!!!!!!!"); return true; }
+                    Debug.WriteLine("SOMETHING WRONG WHEN ADDING ITEM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    return false;
+                });
+            });
         }
 
         public async Task<int> UpdateItemAsync(Item item)

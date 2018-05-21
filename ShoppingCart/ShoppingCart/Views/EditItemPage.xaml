@@ -1,7 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:services="clr-namespace:ShoppingCart.Services;assembly=ShoppingCart.Android"
              x:Class="ShoppingCart.EditItemPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <services:NullableIntConverter x:Key="NullableIntConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Back" Clicked="Back_Clicked" />
         <ToolbarItem Text="Save" Clicked="Save_Clicked" />
@@ -16,7 +24,7 @@
                 <Label Text="Image" FontSize="Medium" />
                 <Editor Text="{Binding Item.ImageUrl}" FontSize="Small" Margin="0" />
                 <Label Text="Quantity" FontSize="Medium" />
-                <Editor Text="{Binding Item.Quantity, Converter={StaticResource ShoppingCart.Services.NullableIntConverter}}" FontSize="Small" Margin="0" />
+                <Editor Text="{Binding Item.Quantity, Converter={StaticResource NullableIntConverter}}" FontSize="Small" Margin="0" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
