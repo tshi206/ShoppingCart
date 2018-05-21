@@ -78,6 +78,18 @@ namespace ShoppingCart.Services
         public async Task<int> UpdateItemAsync(Item item)
         {
             return await _sqLiteAsyncConnection.UpdateAsync(item);
+//            Debug.WriteLine("Start editting an item!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//            return await await _sqLiteAsyncConnection.UpdateAsync(item).ContinueWith(t =>
+//            {
+//                return new Task<int>(() =>
+//                {
+//                    if (t.IsCanceled) { Debug.WriteLine("EDIT ITEM FAIL : CANCELED!!!!!!!!!!!!!!!!!!!!!!"); return t.Result; }
+//                    if (t.IsFaulted) { Debug.WriteLine("EDIT ITEM FAIL : FAULTED!!!!!!!!!!!!!!!!!!!!!!"); return t.Result; }
+//                    if (t.IsCompleted) { Debug.WriteLine("EDIT ITEM SUCCEEDED!!!!!!!!!!!!!!!!!!!!!!"); return t.Result; }
+//                    Debug.WriteLine("SOMETHING WRONG WHEN EDITTING ITEM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//                    return t.Result;
+//                });
+//            });
         }
 
         public async Task<int> DeleteItemAsync(Item item)

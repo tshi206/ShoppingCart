@@ -42,9 +42,18 @@ namespace ShoppingCart.ViewModels
                 }
             });
             
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "EditItem", async (obj, item) =>
+            MessagingCenter.Subscribe<EditItemPage, Item>(this, "EditItem", async (obj, item) =>
             {
-                await DataStore.UpdateItemAsync(item);
+                Debug.WriteLine(obj.ToString());
+                Debug.WriteLine(item.ToString());
+                int index = Items.IndexOf(item);
+                Items.Remove(item);
+                Items.Insert(index, item);
+                await DataStore.UpdateItemAsync(item).ContinueWith(t =>
+                {
+                    Debug.WriteLine("Edit result : " + t.Result);
+                    LoadItemsCommand.Execute(null);
+                });
             });
         }
 

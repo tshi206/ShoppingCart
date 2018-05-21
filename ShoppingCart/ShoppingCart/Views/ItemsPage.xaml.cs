@@ -59,8 +59,6 @@ namespace ShoppingCart.Views
 				    await Navigation.PushModalAsync(new NavigationPage(new EditItemPage(item)));
 			    }
 			    
-			    
-			    //viewModel.LoadItemsCommand.Execute(null);
 		    }
 	    }
 
@@ -78,8 +76,11 @@ namespace ShoppingCart.Views
 				    Debug.WriteLine(item.Description);
 				    Debug.WriteLine(item.ImageUrl);
 				    Debug.WriteLine(item.Quantity.ToString());
-				    await viewModel.DataStore.DeleteItemAsync(item);
-				    viewModel.LoadItemsCommand.Execute(null);
+				    await viewModel.DataStore.DeleteItemAsync(item).ContinueWith(t =>
+				    {
+                        Debug.WriteLine("Deletion result : " + t.Result);
+				        viewModel.LoadItemsCommand.Execute(null);
+                    });
 			    }
 		    }
 			
