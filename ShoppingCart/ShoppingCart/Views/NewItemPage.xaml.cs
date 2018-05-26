@@ -76,6 +76,8 @@ namespace ShoppingCart.Views
                     Item.ImageFilePath = localPath;
                     Item.SourcePath = localPath;
 
+                    button.IsEnabled = true;
+
                     await DisplayAlert("Done!", "Your image has been selected", "cool");
                 }
                 else

@@ -17,25 +17,57 @@ namespace ShoppingCart
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class EditItemPage : ContentPage
 	{
-		public Item Item { get; set; }
+
+	    private string OldImageFilePathVersion { get; set; }
+	    private int OldImageUrlHash { get; set; }
+
+        private string NewImageFilePathVersion { get; set; }
+
+        public Item Item { get; set; }
 		
 		public EditItemPage (Item item)
 		{
 			InitializeComponent ();
 
 			Item = item;
-			
-			BindingContext = this;
+		    OldImageFilePathVersion = item.ImageFilePathVersion;
+		    OldImageUrlHash = item.ImageUrl.GetHashCode();
+
+		    NewImageFilePathVersion = item.ImageFilePathVersion;
+
+            BindingContext = this;
 		}
 		
 		async void Save_Clicked(object sender, EventArgs e)
 		{
-		    if (string.IsNullOrEmpty(Item.ImageFilePath))
+		    int newImageUrlHash = Item.ImageUrl.GetHashCode();
+            Debug.WriteLine("old url hash code : " + OldImageUrlHash + " , new url hash code : " + newImageUrlHash);
+		    if (newImageUrlHash != OldImageUrlHash && !NewImageFilePathVersion.Equals(OldImageFilePathVersion))
+		    {
+		        Item.SourcePath = Item.ImageFilePath;
+            }
+		    else if (newImageUrlHash == OldImageUrlHash && NewImageFilePathVersion.Equals(OldImageFilePathVersion))
+		    {
+		        Item.SourcePath = Item.SourcePath;
+            }
+		    else if (newImageUrlHash == OldImageUrlHash && !NewImageFilePathVersion.Equals(OldImageFilePathVersion))
+		    {
+		        Item.SourcePath = Item.ImageFilePath;
+            }
+		    else if (newImageUrlHash != OldImageUrlHash && NewImageFilePathVersion.Equals(OldImageFilePathVersion))
 		    {
 		        Item.SourcePath = Item.ImageUrl;
-		    }
+            }
+
+		    Item.ImageFilePathVersion = NewImageFilePathVersion;
+
+//		    if (string.IsNullOrEmpty(Item.ImageFilePath))
+//		    {
+//		        Item.SourcePath = Item.ImageUrl;
+//		    }
 //            MessagingCenter.Send(this, "EditItem", Item);
-		    await Navigation.PushAsync(new ImageView(Item, "edit"));
+
+            await Navigation.PushAsync(new ImageView(Item, "edit"));
         }
 
 	    async void Back_Clicked(object sender, EventArgs e)
@@ -69,9 +101,12 @@ namespace ShoppingCart
 	                string localPath = DependencyService.Get<ILocalUserFolderLocator>()
 	                    .GetPathToLocalImageDir("img_" + Guid.NewGuid(), stream);
 	                Item.ImageFilePath = localPath;
-	                Item.SourcePath = localPath;
+	                
+	                NewImageFilePathVersion = Guid.NewGuid().ToString();
 
-	                await DisplayAlert("Done!", "Your image has been selected", "cool");
+	                button.IsEnabled = true;
+
+                    await DisplayAlert("Done!", "Your image has been selected", "cool");
 	            }
 	            else
 	            {

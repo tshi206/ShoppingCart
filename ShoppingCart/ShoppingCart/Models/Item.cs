@@ -14,5 +14,11 @@ namespace ShoppingCart.Models
         public string Uid { get; set; }
         public string ImageUrl { get; set; }
         public string ImageFilePath { get; set; }
+        public string ImageFilePathVersion { get; set; }
+
+        public Item()
+        {
+            ImageFilePathVersion = Guid.NewGuid().ToString();
+        }
     }
 }

@@ -99,6 +99,7 @@ namespace ShoppingCart.ViewModels
                     Debug.WriteLine("Quantity: " + item.Quantity);
                     Debug.WriteLine("ImageFilePath: " + (item.ImageFilePath ?? "null"));
                     Debug.WriteLine("Uid: " + (item.Uid??"null"));
+                    Debug.WriteLine("ImageFilePathVersion: " + (item.ImageFilePathVersion ?? "null"));
                     Items.Add(item);
                 }
 
