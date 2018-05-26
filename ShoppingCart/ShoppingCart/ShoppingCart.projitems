@@ -18,6 +18,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDBInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ILocalUserFolderLocator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IPicturePicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LocalDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\NullableIntConverter.cs" />
@@ -44,6 +46,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\EditItemPage.xaml.cs">
       <DependentUpon>EditItemPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ImageView.xaml.cs">
+      <DependentUpon>ImageView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\MainPage.xaml">
@@ -63,6 +68,7 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\EditItemPage.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ImageView.xaml" />
   </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />

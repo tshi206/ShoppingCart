@@ -24,6 +24,11 @@
                 <Editor Text="{Binding Item.Description}" FontSize="Small" Margin="0" />
                 <Label Text="Image" FontSize="Medium" />
                 <Editor Text="{Binding Item.ImageUrl}" FontSize="Small" Margin="0" />
+                <Label Text="If an image is selected from the local storage, it will replace the image offered from the url above." FontSize="Medium" />
+                <Button Text = "Pick Photo"
+                        VerticalOptions = "CenterAndExpand"
+                        HorizontalOptions = "CenterAndExpand"
+                        Clicked="PickPictureAsync"></Button>
                 <Label Text="Quantity" FontSize="Medium" />
                 <Editor Text="{Binding Item.Quantity, Converter={StaticResource NullableIntConverter}}" FontSize="Small" Margin="0" />
             </StackLayout>

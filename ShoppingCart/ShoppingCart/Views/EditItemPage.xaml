@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:services="clr-namespace:ShoppingCart.Services;assembly=ShoppingCart.Android"
+             xmlns:services1="clr-namespace:ShoppingCart.Services;assembly=ShoppingCart.iOS"
              x:Class="ShoppingCart.EditItemPage">
 
     <ContentPage.Resources>
@@ -23,6 +24,11 @@
                 <Editor Text="{Binding Item.Description}" FontSize="Small" Margin="0" />
                 <Label Text="Image" FontSize="Medium" />
                 <Editor Text="{Binding Item.ImageUrl}" FontSize="Small" Margin="0" />
+                <Label Text="If an image is selected from the local storage, it will replace the image offered from the url above." FontSize="Medium" />
+                <Button Text = "Pick Photo"
+                        VerticalOptions = "CenterAndExpand"
+                        HorizontalOptions = "CenterAndExpand"
+                        Clicked="PickPictureAsync"></Button>
                 <Label Text="Quantity" FontSize="Medium" />
                 <Editor Text="{Binding Item.Quantity, Converter={StaticResource NullableIntConverter}}" FontSize="Small" Margin="0" />
             </StackLayout>

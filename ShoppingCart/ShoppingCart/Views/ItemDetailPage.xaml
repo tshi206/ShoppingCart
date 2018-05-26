@@ -1,12 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:services="clr-namespace:ShoppingCart.Services;assembly=ShoppingCart.Android"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="ShoppingCart.Views.ItemDetailPage"
              Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <services:NullableIntConverter x:Key="NullableIntConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout Spacing="20" Padding="15">
         <Label Text="Text:" FontSize="Medium" />
         <Label Text="{Binding Item.Text}" FontSize="Small"/>
         <Label Text="Description:" FontSize="Medium" />
         <Label Text="{Binding Item.Description}" FontSize="Small"/>
+        <Label Text="Quantity" FontSize="Medium" />
+        <Editor Text="{Binding Item.Quantity, Converter={StaticResource NullableIntConverter}}" FontSize="Small" Margin="0" />
+        <Label Text="Image" FontSize="Medium" />
+        <forms:CachedImage HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           CacheDuration = "30"
+                           RetryCount = "0"
+                           RetryDelay = "250"
+                           TransparencyEnabled = "false"
+                           LoadingPlaceholder = "http://via.placeholder.com/256x256"
+                           ErrorPlaceholder = "http://via.placeholder.com/256x256"
+                           Source = "{Binding Item.SourcePath}">
+        </forms:CachedImage>
     </StackLayout>
 </ContentPage>

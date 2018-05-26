@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              x:Class="ShoppingCart.Views.ItemsPage"
               Title="{Binding Title}"
              x:Name="BrowseItemsPage">
@@ -37,7 +39,20 @@
 
                             <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                                 <StackLayout Padding="0" Margin="0" Spacing="0" Orientation="Horizontal">
-                                    <Image Source="{Binding ImageUrl}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Aspect="AspectFit"/>
+                                    <forms:CachedImage HorizontalOptions="Center"
+                                                       VerticalOptions="Center"
+                                                       WidthRequest = "128"
+                                                       HeightRequest = "128"
+                                                       CacheDuration = "30"
+                                                       DownsampleWidth = "128"
+                                                       RetryCount = "0"
+                                                       RetryDelay = "250"
+                                                       TransparencyEnabled = "false"
+                                                       LoadingPlaceholder = "http://via.placeholder.com/256x256"
+                                                       ErrorPlaceholder = "http://via.placeholder.com/256x256"
+                                                       Source = "{Binding SourcePath}">
+                                    </forms:CachedImage>
+                                    <!-- <Image Source="{Binding SourcePath}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Aspect="AspectFit"/> -->
                                 </StackLayout>
                                 
                                 <StackLayout Padding="10">
