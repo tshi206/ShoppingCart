@@ -23,7 +23,7 @@ namespace ShoppingCart.ViewModels
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<ImageView, Item>(this, "AddItem", async (obj, item) =>
             {
                 if (item == null)
                 {
@@ -63,7 +63,7 @@ namespace ShoppingCart.ViewModels
 
             });
             
-            MessagingCenter.Subscribe<EditItemPage, Item>(this, "EditItem", async (obj, item) =>
+            MessagingCenter.Subscribe<ImageView, Item>(this, "EditItem", async (obj, item) =>
             {
                 Debug.WriteLine(obj.ToString());
                 Debug.WriteLine(item.ToString());

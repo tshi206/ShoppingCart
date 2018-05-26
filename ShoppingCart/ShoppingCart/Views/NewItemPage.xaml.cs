@@ -9,6 +9,7 @@ using Xamarin.Forms.Xaml;
 
 using ShoppingCart.Models;
 using ShoppingCart.Services;
+using ShoppingCart.ViewModels;
 
 namespace ShoppingCart.Views
 {
@@ -38,13 +39,13 @@ namespace ShoppingCart.Views
             {
                 Item.SourcePath = Item.ImageUrl;
             }
-            MessagingCenter.Send(this, "AddItem", Item);
-            await Navigation.PopModalAsync();
+//            MessagingCenter.Send(this, "AddItem", Item);
+            await Navigation.PushAsync(new ImageView(Item, "add"));
         }
 
         async void Back_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "Back", Item);
+//            MessagingCenter.Send(this, "Back", Item);
             await Navigation.PopModalAsync();
         }
 

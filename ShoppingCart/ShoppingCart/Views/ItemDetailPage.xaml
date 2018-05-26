@@ -18,8 +18,8 @@
         <Label Text="Quantity" FontSize="Medium" />
         <Editor Text="{Binding Item.Quantity, Converter={StaticResource NullableIntConverter}}" FontSize="Small" Margin="0" />
         <Label Text="Image" FontSize="Medium" />
-        <forms:CachedImage HorizontalOptions="Center"
-                           VerticalOptions="Center"
+        <forms:CachedImage HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
                            CacheDuration = "30"
                            RetryCount = "0"
                            RetryDelay = "250"
