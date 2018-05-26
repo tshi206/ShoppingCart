@@ -57,10 +57,10 @@ namespace ShoppingCart.Views
 	        await Navigation.PopModalAsync();
         }
 
-	    private async void Back_Clicked(object sender, EventArgs e)
-	    {
-	        MessagingCenter.Send(this, "Back", Item);
-	        await Navigation.PopModalAsync();
-        }
+//	    private async void Back_Clicked(object sender, EventArgs e)
+//	    {
+//	        MessagingCenter.Send(this, "Back", Item);
+//	        await Navigation.PopModalAsync();
+//        }
 	}
 }

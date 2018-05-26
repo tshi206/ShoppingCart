@@ -4,7 +4,6 @@
              x:Class="ShoppingCart.Views.ImageView"
              Title="Image Preview">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Back" Clicked="Back_Clicked" />
         <ToolbarItem Text="Continue" Clicked="Continue_Clicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>

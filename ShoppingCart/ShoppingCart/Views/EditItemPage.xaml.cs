@@ -46,38 +46,39 @@ namespace ShoppingCart
 
 	    private async void PickPictureAsync(object sender, EventArgs e)
 	    {
-	        Debug.WriteLine(sender.ToString());
-	        Debug.WriteLine(e.ToString());
-	        Button button = sender as Button;
 
-	        button.IsEnabled = false;
-	        Stream stream = await DependencyService.Get<IPicturePicker>().GetImageStreamAsync();
-
-	        if (stream != null)
+	        using (UserDialogs.Instance.Loading("Loading you image...\n" +
+	                                            "Please wait UNTIL the completion dialog shows up!",
+	            null, null, true, MaskType.Black))
 	        {
 
-	            using (UserDialogs.Instance.Loading("Loading you image...\n" +
-	                                                "Please wait UNTIL the completion dialog shows up!",
-	                null, null, true, MaskType.Black))
+	            Debug.WriteLine(sender.ToString());
+	            Debug.WriteLine(e.ToString());
+	            Button button = sender as Button;
+
+	            button.IsEnabled = false;
+	            Stream stream = await DependencyService.Get<IPicturePicker>().GetImageStreamAsync();
+
+	            if (stream != null)
 	            {
-	                await Task.Delay(5000);
+
+	                Debug.WriteLine("streamCopy.CanRead = " + stream.CanRead);
+	                Debug.WriteLine("streamCopy.CanWrite = " + stream.CanWrite);
+	                Debug.WriteLine(DependencyService.Get<ILocalUserFolderLocator>());
+
+	                string localPath = DependencyService.Get<ILocalUserFolderLocator>()
+	                    .GetPathToLocalImageDir("img_" + Guid.NewGuid(), stream);
+	                Item.ImageFilePath = localPath;
+	                Item.SourcePath = localPath;
+
+	                await DisplayAlert("Done!", "Your image has been selected", "cool");
 	            }
+	            else
+	            {
+	                button.IsEnabled = true;
+	            }
+            }
 
-                Debug.WriteLine("streamCopy.CanRead = " + stream.CanRead);
-	            Debug.WriteLine("streamCopy.CanWrite = " + stream.CanWrite);
-	            Debug.WriteLine(DependencyService.Get<ILocalUserFolderLocator>());
-
-	            string localPath = DependencyService.Get<ILocalUserFolderLocator>()
-	                .GetPathToLocalImageDir("img_" + Guid.NewGuid(), stream);
-	            Item.ImageFilePath = localPath;
-	            Item.SourcePath = localPath;
-
-	            await DisplayAlert("Done!", "Your image has been selected", "cool");
-	        }
-	        else
-	        {
-	            button.IsEnabled = true;
-	        }
         }
 	}
 }
