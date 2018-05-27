@@ -7,6 +7,7 @@ namespace ShoppingCart.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+        public string id { get; set; } // for cosmos db
         public string SourcePath { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }

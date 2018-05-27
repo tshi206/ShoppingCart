@@ -13,7 +13,8 @@ namespace ShoppingCart.ViewModels
     public class CartViewModel : INotifyPropertyChanged
     {
         //public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? LocalDataStore.Database;
-        public IDataStore<Item> DataStore => LocalDataStore.Database;
+        public IDataStore<Item> DataStore => LocalDataStore.Database; // local sqlite
+        public IDataStore<Item> CosmosDataStore => AzureCosmosStore.CosmosDbStore; // cosmos db
 
         bool isBusy = false;
         public bool IsBusy

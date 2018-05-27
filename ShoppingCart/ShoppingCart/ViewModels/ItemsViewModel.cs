@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -43,14 +44,18 @@ namespace ShoppingCart.ViewModels
 
                 if (AccountViewModel.UserID != null)
                 {
-                    if (!item.SourcePath.StartsWith("http"))
+                    
+                    item.Uid = AccountViewModel.UserID;
+                    item.Id = (Guid.NewGuid().ToString().GetHashCode() + Guid.NewGuid().ToString().GetHashCode() + Guid.NewGuid().ToString().GetHashCode() + Guid.NewGuid().ToString().GetHashCode())/4;
+
+                    if (!item.SourcePath.StartsWith("http")) // if source path is a local file path
                     {
+                        // change the source path to a remote url behind the scene so that it can be stored in remote db
                         await BlobService.AzureBlobService.UploadFileAsync(item.SourcePath, item);
                     }
-                    else
-                    {
-                        // just save the url to cloud DB, no need for blob storage
-                    }
+
+                    // just save the url to cloud DB, no need for blob storage
+                    await CosmosDataStore.AddItemAsync(item);
                 }
                 else
                 {
@@ -87,11 +92,20 @@ namespace ShoppingCart.ViewModels
                 int index = Items.IndexOf(item);
                 Items.Remove(item);
                 Items.Insert(index, item);
-                await DataStore.UpdateItemAsync(item).ContinueWith(t =>
+                
+                if (item.Uid != null) // it belongs to a authenticated user, not the local file system
                 {
-                    Debug.WriteLine("Edit result : " + t.Result);
-                    LoadItemsCommand.Execute(null);
-                });
+                    await CosmosDataStore.UpdateItemAsync(item);
+                }
+                else
+                {
+                    await DataStore.UpdateItemAsync(item).ContinueWith(t =>
+                    {
+                        Debug.WriteLine("Edit result : " + t.Result);
+                        LoadItemsCommand.Execute(null);
+                    });
+                }
+                
             });
         }
 
@@ -105,25 +119,60 @@ namespace ShoppingCart.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                
+                
+                if (AccountViewModel.UserID != null) // authenticated mode
                 {
-                    Debug.WriteLine("Id: " + item.Id);
-                    Debug.WriteLine("Text (name) : " + (item.Text ?? "null"));
-                    Debug.WriteLine("Description: " + (item.Description ?? "null"));
-                    Debug.WriteLine("SourcePath: " + (item.SourcePath ?? "null"));
-                    Debug.WriteLine("ImageUrl: " + (item.ImageUrl ?? "null"));
-                    Debug.WriteLine("Quantity: " + item.Quantity);
-                    Debug.WriteLine("ImageFilePath: " + (item.ImageFilePath ?? "null"));
-                    Debug.WriteLine("Uid: " + (item.Uid??"null"));
-                    Debug.WriteLine("ImageFilePathVersion: " + (item.ImageFilePathVersion ?? "null"));
-                    Items.Add(item);
+                    await CosmosDataStore.GetItemsAsync().ContinueWith(async t =>
+                    {
+                        foreach (var item in t.Result)
+                        {
+                            Debug.WriteLine("Id: " + item.Id);
+                            Debug.WriteLine("Text (name) : " + (item.Text ?? "null"));
+                            Debug.WriteLine("Description: " + (item.Description ?? "null"));
+                            Debug.WriteLine("SourcePath: " + (item.SourcePath ?? "null"));
+                            Debug.WriteLine("ImageUrl: " + (item.ImageUrl ?? "null"));
+                            Debug.WriteLine("Quantity: " + item.Quantity);
+                            Debug.WriteLine("ImageFilePath: " + (item.ImageFilePath ?? "null"));
+                            Debug.WriteLine("Uid: " + (item.Uid ?? "null"));
+                            Debug.WriteLine("ImageFilePathVersion: " + (item.ImageFilePathVersion ?? "null"));
+                            Items.Add(item);
+                        }
+                        await DataStore.GetItemsAsync().ContinueWith(t1 =>
+                        {
+                            t1.Result.ForEach(i =>
+                            {
+                                Items.Add(i);
+                            });
+                        });
+                    });
+                    
                 }
+                else // local mode
+                {
+                    await DataStore.GetItemsAsync(true).ContinueWith(t =>
+                    {
+                        foreach (var item in t.Result)
+                        {
+                            Debug.WriteLine("Id: " + item.Id);
+                            Debug.WriteLine("Text (name) : " + (item.Text ?? "null"));
+                            Debug.WriteLine("Description: " + (item.Description ?? "null"));
+                            Debug.WriteLine("SourcePath: " + (item.SourcePath ?? "null"));
+                            Debug.WriteLine("ImageUrl: " + (item.ImageUrl ?? "null"));
+                            Debug.WriteLine("Quantity: " + item.Quantity);
+                            Debug.WriteLine("ImageFilePath: " + (item.ImageFilePath ?? "null"));
+                            Debug.WriteLine("Uid: " + (item.Uid ?? "null"));
+                            Debug.WriteLine("ImageFilePathVersion: " + (item.ImageFilePathVersion ?? "null"));
+                            Items.Add(item);
+                        }
+                    });
+                }
+                
 
                 // debug printlns for blobs
                 await BlobService.AzureBlobService.GetAllBlobUrisAsync();
 
-                if (isStartup && items.Count == 0)
+                if (isStartup && Items.Count == 0)
                 {
                     isStartup = false;
                     MessagingCenter.Send(this, "EmptyCart", true);

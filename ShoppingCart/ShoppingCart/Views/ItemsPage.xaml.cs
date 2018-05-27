@@ -87,11 +87,25 @@ namespace ShoppingCart.Views
 				    Debug.WriteLine(item.Description);
 				    Debug.WriteLine(item.ImageUrl);
 				    Debug.WriteLine(item.Quantity.ToString());
-				    await viewModel.DataStore.DeleteItemAsync(item).ContinueWith(t =>
-				    {
-                        Debug.WriteLine("Deletion result : " + t.Result);
-				        viewModel.LoadItemsCommand.Execute(null);
-                    });
+
+                    
+			        if (AccountViewModel.UserID != null) // is authenticated?
+			        {
+			            await viewModel.CosmosDataStore.DeleteItemAsync(item).ContinueWith(t =>
+			            {
+			                Debug.WriteLine("Deletion result : " + t.Result);
+			                viewModel.LoadItemsCommand.Execute(null);
+                        });
+			        }
+			        else
+			        {
+			            await viewModel.DataStore.DeleteItemAsync(item).ContinueWith(t =>
+			            {
+			                Debug.WriteLine("Deletion result : " + t.Result);
+			                viewModel.LoadItemsCommand.Execute(null);
+			            });
+                    }
+                    
 			    }
 		    }
 			
