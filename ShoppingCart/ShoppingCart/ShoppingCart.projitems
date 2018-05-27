@@ -16,6 +16,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AzureCosmosStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\BlobService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleOAuthToken.cs" />

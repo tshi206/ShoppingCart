@@ -34,7 +34,7 @@ namespace ShoppingCart.Views
                                                     "(2) if you used this app before, login with your Google account to " +
                                                     "retrieve your items back from the cloud\n" +
                                                     "(3) drag down the cart list to reload items from local storage and/or" +
-                                                    " sync your data to the cloud", "OK");
+                                                    " load your data from the cloud", "OK");
                 });
         }
 

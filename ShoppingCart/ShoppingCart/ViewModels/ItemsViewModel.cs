@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using FFImageLoading.Forms;
 using ShoppingCart.Models;
+using ShoppingCart.Services;
 using ShoppingCart.Views;
 using Xamarin.Forms;
 
@@ -39,11 +40,27 @@ namespace ShoppingCart.ViewModels
                 Debug.WriteLine(item.ToString());
 
                 Items.Add(item);
-                bool result = await DataStore.AddItemAsync(item);
-                if (!result)
+
+                if (AccountViewModel.UserID != null)
                 {
-                    Debug.WriteLine("CANNOT ADD NEW ITEM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    if (!item.SourcePath.StartsWith("http"))
+                    {
+                        await BlobService.AzureBlobService.UploadFileAsync(item.SourcePath, item);
+                    }
+                    else
+                    {
+                        // just save the url to cloud DB, no need for blob storage
+                    }
                 }
+                else
+                {
+                    bool result = await DataStore.AddItemAsync(item);
+                    if (!result)
+                    {
+                        Debug.WriteLine("CANNOT ADD NEW ITEM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    }
+                }
+                
 
 //                var cachedImage = new CachedImage()
 //                {
@@ -102,6 +119,9 @@ namespace ShoppingCart.ViewModels
                     Debug.WriteLine("ImageFilePathVersion: " + (item.ImageFilePathVersion ?? "null"));
                     Items.Add(item);
                 }
+
+                // debug printlns for blobs
+                await BlobService.AzureBlobService.GetAllBlobUrisAsync();
 
                 if (isStartup && items.Count == 0)
                 {
