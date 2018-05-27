@@ -42,7 +42,20 @@ namespace ShoppingCart
 		{
 		    int newImageUrlHash = Item.ImageUrl.GetHashCode();
             Debug.WriteLine("old url hash code : " + OldImageUrlHash + " , new url hash code : " + newImageUrlHash);
-		    if (newImageUrlHash != OldImageUrlHash && !NewImageFilePathVersion.Equals(OldImageFilePathVersion))
+		    Debug.WriteLine("NewImageFilePathVersion : " + NewImageFilePathVersion);
+		    Debug.WriteLine("OldImageFilePathVersion : " + OldImageFilePathVersion);
+
+            if (NewImageFilePathVersion == null)
+		    {
+		        NewImageFilePathVersion = "null";
+		    }
+
+		    if (OldImageFilePathVersion == null)
+		    {
+		        OldImageFilePathVersion = "null";
+		    }
+
+            if (newImageUrlHash != OldImageUrlHash && !NewImageFilePathVersion.Equals(OldImageFilePathVersion))
 		    {
 		        Item.SourcePath = Item.ImageFilePath;
             }

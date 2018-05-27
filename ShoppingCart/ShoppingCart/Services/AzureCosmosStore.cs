@@ -38,14 +38,15 @@ namespace ShoppingCart.Services
 
             try
             {
-                ResourceResponse<Microsoft.Azure.Documents.Document> x = await _client.CreateDocumentAsync(_collectionLink, item);
-                Debug.WriteLine(x.Resource);
-                Debug.WriteLine(x.Resource.Id);
-                Debug.WriteLine(x.Resource.ResourceId);
-                Debug.WriteLine(x.Resource.IsNull());
-                Debug.WriteLine(x.Resource.IsDefined());
-                return true;
-
+                return await _client.CreateDocumentAsync(_collectionLink, item).ContinueWith(t =>
+                {
+                    Debug.WriteLine(t.Result);
+                    Debug.WriteLine(t.Result.Resource.Id);
+                    Debug.WriteLine(t.Result.IsNull());
+                    Debug.WriteLine(t.Result.Resource.IsDefined());
+                    return true;
+                });
+                
             }
             catch (Exception e)
             {
@@ -59,8 +60,7 @@ namespace ShoppingCart.Services
         {
             try
             {
-                ResourceResponse<Microsoft.Azure.Documents.Document> x = await _client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, item.Id.ToString()), item);
-                return Convert.ToInt32(x.Resource.Id);
+                return await _client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, item.Id.ToString()), item).ContinueWith(t => t.Result.GetHashCode());
 
             }
             catch (Exception e)
@@ -75,8 +75,7 @@ namespace ShoppingCart.Services
             try
             {
 
-                ResourceResponse<Microsoft.Azure.Documents.Document> x = await _client.DeleteDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, item.Id.ToString()));
-                return Convert.ToInt32(x.Resource.Id);
+                return await _client.DeleteDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, item.Id.ToString())).ContinueWith(t => t.Result.GetHashCode());
 
             }
             catch (Exception e)

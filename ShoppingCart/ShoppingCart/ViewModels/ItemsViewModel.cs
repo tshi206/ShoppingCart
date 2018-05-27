@@ -95,7 +95,11 @@ namespace ShoppingCart.ViewModels
                 
                 if (item.Uid != null) // it belongs to a authenticated user, not the local file system
                 {
-                    await CosmosDataStore.UpdateItemAsync(item);
+                    await CosmosDataStore.UpdateItemAsync(item).ContinueWith(t =>
+                    {
+                        Debug.WriteLine("Edit result : " + t.Result);
+                        LoadItemsCommand.Execute(null);
+                    });
                 }
                 else
                 {
@@ -144,6 +148,16 @@ namespace ShoppingCart.ViewModels
                             {
                                 Items.Add(i);
                             });
+
+                            if (isStartup && Items.Count == 0)
+                            {
+                                isStartup = false;
+                                MessagingCenter.Send(this, "EmptyCart", true);
+                            }
+                            else
+                            {
+                                isStartup = false;
+                            }
                         });
                     });
                     
@@ -165,6 +179,16 @@ namespace ShoppingCart.ViewModels
                             Debug.WriteLine("ImageFilePathVersion: " + (item.ImageFilePathVersion ?? "null"));
                             Items.Add(item);
                         }
+
+                        if (isStartup && Items.Count == 0)
+                        {
+                            isStartup = false;
+                            MessagingCenter.Send(this, "EmptyCart", true);
+                        }
+                        else
+                        {
+                            isStartup = false;
+                        }
                     });
                 }
                 
@@ -172,15 +196,7 @@ namespace ShoppingCart.ViewModels
                 // debug printlns for blobs
                 await BlobService.AzureBlobService.GetAllBlobUrisAsync();
 
-                if (isStartup && Items.Count == 0)
-                {
-                    isStartup = false;
-                    MessagingCenter.Send(this, "EmptyCart", true);
-                }
-                else
-                {
-                    isStartup = false;
-                }
+                
             }
             catch (Exception ex)
             {

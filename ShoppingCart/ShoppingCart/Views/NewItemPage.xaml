@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:services="clr-namespace:ShoppingCart.Services;assembly=ShoppingCart.Android"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:services1="clr-namespace:ShoppingCart.Services;assembly=ShoppingCart.iOS"
              x:Class="ShoppingCart.Views.NewItemPage"
 		     Title="New Item">
 

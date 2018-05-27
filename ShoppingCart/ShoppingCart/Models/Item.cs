@@ -6,7 +6,8 @@ namespace ShoppingCart.Models
     public class Item
     {
         [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        public int Id { get; set; } // for local db
+        [Ignore]
         public string id { get; set; } // for cosmos db
         public string SourcePath { get; set; }
         public string Text { get; set; }
