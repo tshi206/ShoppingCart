@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Acr.UserDialogs;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -29,13 +29,20 @@ namespace ShoppingCart.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            // Convert Android.Net.Url to Uri
-            var uri = new Uri(Intent.Data.ToString());
+            using (UserDialogs.Instance.Loading("Authenticating...\n" +
+                                                "Please wait...",
+                null, null, true, MaskType.Black))
+            {
 
-            // Load redirectUrl page
-            AuthenticationState.Authenticator.OnPageLoading(uri);
+                // Convert Android.Net.Url to Uri
+                var uri = new Uri(Intent.Data.ToString());
 
-            Finish();
+                // Load redirectUrl page
+                AuthenticationState.Authenticator.OnPageLoading(uri);
+
+                Finish();
+            }
+
         }
     }
 }

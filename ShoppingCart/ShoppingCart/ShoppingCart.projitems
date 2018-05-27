@@ -17,7 +17,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleAuthenticator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleEmail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleOAuthToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IAuthenticationState.cs" />

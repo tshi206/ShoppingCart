@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Acr.UserDialogs;
 using ShoppingCart.Models;
 using ShoppingCart.Services;
 using ShoppingCart.ViewModels;
@@ -23,21 +24,33 @@ namespace ShoppingCart.Views
 		    {
 		        Debug.WriteLine(msg.ToString());
 
-		        await DisplayAlert("Done!", "Authentication succeeded.", "nice");
+		        Stack.Children.Remove(Login);
+
+		        Image img = new Image {Source = AccountViewModel.UserProfileImg};
+		        Stack.Children.Add(img);
+
+		        Welcome = new Label {Text = "Hi! " + AccountViewModel.Username, FontSize = 30, FontFamily = "Arial", HorizontalOptions = LayoutOptions.Center};
+		        Stack.Children.Add(Welcome);
+
+                await DisplayAlert("Done!", "Authentication succeeded.", "nice");
 		    });
 
 		    MessagingCenter.Subscribe<AccountViewModel, string>(this, "AuthFailed", async (obj, msg) =>
 		    {
 		        Debug.WriteLine(msg.ToString());
 
-		        await DisplayAlert("Oops!", "Something went wrong. Try again later...", "ok");
+		        Login.IsEnabled = true;
+
+                await DisplayAlert("Oops!", "Something went wrong. Try again later...", "ok");
             });
 
 		    MessagingCenter.Subscribe<AccountViewModel, string>(this, "AuthCanceled", async (obj, msg) =>
 		    {
 		        Debug.WriteLine(msg.ToString());
 
-		        await DisplayAlert("Canceled", "Your authentication process has been canceled", "ok");
+		        Login.IsEnabled = true;
+
+                await DisplayAlert("Canceled", "Your authentication process has been canceled", "ok");
             });
 
             /**
@@ -54,16 +67,24 @@ namespace ShoppingCart.Views
 
 	    private void LoginOnClicked(object sender, EventArgs e)
 	    {
-	        Debug.WriteLine(AccountViewModel.Auth);
-	        Debug.WriteLine(AccountViewModel.Auth.GetAuthenticator());
+	        using (UserDialogs.Instance.Loading("Authenticating...\n" +
+	                                            "Please wait...",
+	            null, null, true, MaskType.Black))
+	        {
+	            Login.IsEnabled = false;
 
-	        DependencyService.Get<IAuthenticationState>().SetAuth(AccountViewModel.Auth.GetAuthenticator());
+	            Debug.WriteLine(AccountViewModel.Auth);
+	            Debug.WriteLine(AccountViewModel.Auth.GetAuthenticator());
 
-	        Debug.WriteLine(DependencyService.Get<IAuthenticationState>());
-	        Debug.WriteLine(DependencyService.Get<IAuthenticationState>().GetAuth());
+	            DependencyService.Get<IAuthenticationState>().SetAuth(AccountViewModel.Auth.GetAuthenticator());
 
-	        var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
-	        presenter.Login(AccountViewModel.Auth.GetAuthenticator());
+	            Debug.WriteLine(DependencyService.Get<IAuthenticationState>());
+	            Debug.WriteLine(DependencyService.Get<IAuthenticationState>().GetAuth());
+
+	            var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
+	            presenter.Login(AccountViewModel.Auth.GetAuthenticator());
+                
+            }
         }
 	}
 }

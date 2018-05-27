@@ -12,8 +12,7 @@ namespace ShoppingCart.Services
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
             var json = await httpClient.GetStringAsync("https://www.googleapis.com/userinfo/email?alt=json");
-            var email = JsonConvert.DeserializeObject<GoogleEmail>(json);
-            return email.Data.Email;
+            return json;
         }
     }
 }

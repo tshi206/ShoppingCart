@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using Newtonsoft.Json;
+using ShoppingCart.ViewModels;
 using Xamarin.Auth;
 
 namespace ShoppingCart.Services
@@ -38,7 +41,7 @@ namespace ShoppingCart.Services
             _auth.OnPageLoading(uri);
         }
 
-        private void OnAuthenticationCompleted(object sender, AuthenticatorCompletedEventArgs e)
+        private async void OnAuthenticationCompleted(object sender, AuthenticatorCompletedEventArgs e)
         {
             if (e.IsAuthenticated)
             {
@@ -47,6 +50,28 @@ namespace ShoppingCart.Services
                     TokenType = e.Account.Properties["token_type"],
                     AccessToken = e.Account.Properties["access_token"]
                 };
+
+                string UserInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
+                var request = new OAuth2Request("GET", new Uri(UserInfoUrl), null, e.Account);
+                var response = await request.GetResponseAsync();
+                if (response != null)
+                {
+                    string userJson = response.GetResponseText();
+
+                    Debug.WriteLine(userJson);
+
+                    var account = JsonConvert.DeserializeObject<GoogleAccount>(userJson);
+                    Debug.WriteLine("id: " + account.id);
+                    Debug.WriteLine("name: " + account.name);
+                    Debug.WriteLine("link: " + account.link);
+                    Debug.WriteLine("picture: " + account.picture);
+                    Debug.WriteLine("gender: " + account.gender);
+
+                    AccountViewModel.UserID = account.id;
+                    AccountViewModel.Username = account.name;
+                    AccountViewModel.UserProfileImg = account.picture;
+                }
+
                 _authenticationDelegate.OnAuthenticationCompleted(token);
             }
             else

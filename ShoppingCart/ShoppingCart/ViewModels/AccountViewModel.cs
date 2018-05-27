@@ -11,6 +11,10 @@ namespace ShoppingCart.ViewModels
     {
 
         public static GoogleAuthenticator Auth { get; set; }
+        public static string Username { get; set; }
+        public static string UserProfileImg { get; set; }
+
+        public static string UserID { get; set; }
 
         private string clientId = "430029783273-bvuv4f3g7a7jsdd8olog0jj9sqeg2181.apps.googleusercontent.com";
         private string scope = "https://www.googleapis.com/auth/plus.login";
