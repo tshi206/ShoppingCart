@@ -16,8 +16,14 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleEmail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleOAuthToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IAuthenticationState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDBInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IGoogleAuthenticationDelegate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ILocalUserFolderLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IPicturePicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LocalDataStore.cs" />

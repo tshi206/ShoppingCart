@@ -10,6 +10,9 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using FFImageLoading.Forms.Droid;
+using ShoppingCart.Droid;
+using ShoppingCart.Services;
+using Xamarin.Forms;
 
 namespace ShoppingCart.Droid
 {
@@ -36,6 +39,8 @@ namespace ShoppingCart.Droid
             base.OnCreate(bundle);
 
             UserDialogs.Init(this);
+
+            global::Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
