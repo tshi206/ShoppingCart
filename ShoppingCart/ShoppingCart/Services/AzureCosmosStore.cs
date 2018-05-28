@@ -60,7 +60,7 @@ namespace ShoppingCart.Services
         {
             try
             {
-                return await _client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, item.Id.ToString()), item).ContinueWith(t => t.Result.GetHashCode());
+                return await _client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, item.id), item).ContinueWith(t => t.Result.GetHashCode());
 
             }
             catch (Exception e)
@@ -75,7 +75,7 @@ namespace ShoppingCart.Services
             try
             {
 
-                return await _client.DeleteDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, item.Id.ToString())).ContinueWith(t => t.Result.GetHashCode());
+                return await _client.DeleteDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, item.id)).ContinueWith(t => t.Result.GetHashCode());
 
             }
             catch (Exception e)
